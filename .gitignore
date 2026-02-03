@@ -1,0 +1,7 @@
+# Runtime / volumes (do not commit)
+**/data/
+*.db
+
+# OS / editor
+.DS_Store
+*.log
