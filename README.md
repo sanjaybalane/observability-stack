@@ -34,6 +34,17 @@ Then open Grafana at http://localhost:3000 and add two data sources:
 
 To stop it: docker compose down (add -v to also delete the stored data).
 
+## Incident exercise: host CPU saturation
+
+The point of the stack is to see metrics and logs of the same moment side by side. The exercise I use to test it:
+
+1. Baseline: open the Node Exporter Full dashboard in Grafana with the last 15 minutes selected. CPU is low and stable.
+2. Trigger: on the host, outside any container, run yes > /dev/null for 60 to 90 seconds to saturate a CPU core.
+3. Observe: the CPU panels in Grafana rise. In Explore, switch to the Loki data source and query {job="dockerlogs"}. The container logs keep flowing, so the system is under load but alive.
+4. Stop: press Ctrl+C. CPU returns to the baseline.
+5. Evidence: three screenshots, the CPU spike, CPU back to normal, and the Loki logs for the same timestamps.
+
+
 ## Notes and limits
 
 - Grafana runs with its default admin login. Change it before exposing the port anywhere beyond localhost.
